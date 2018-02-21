@@ -1,0 +1,11 @@
+- name: Create jenkins user
+  user: name=jenkins comment="Jenkins slave user" shell=/bin/bash
+
+- name: Create .ssh folder
+  file: path=/home/jenkins/.ssh state=directory mode=0700 owner=jenkins
+ 
+- name: Add passwordless connection for jenkins
+  authorized_key: user=jenkins key=".......... jenkins@master"
+ 
+- name: Update authorized_keys rights
+  file: path=/home/jenkins/.ssh/authorized_keys state=file mode=0600 owner=jenkins

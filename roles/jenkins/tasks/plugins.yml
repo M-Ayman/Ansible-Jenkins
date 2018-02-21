@@ -1,0 +1,8 @@
+- name: Jenkins | Install Jenkins plugins.
+  shell: >
+    java -jar {{ jenkins_jar_location }} -s http://{{ jenkins_hostname }}:8080{{ jenkins_url_prefix | default('') }}/ install-plugin {{ item }} --username "admin" --password $(cat /var/lib/jenkins/secrets/initialAdminPassword)
+    creates=/var/lib/jenkins/plugins/{{ item }}.jpi
+  with_items: "{{ jenkins_plugins }}"
+  become: yes
+  become_user: jenkins
+  notify: restart jenkins
